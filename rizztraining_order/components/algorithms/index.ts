@@ -1,4 +1,4 @@
-import { fcfs, Process } from '../algorithms/fcfs';
+import { fcfs, Process } from './Fcfs';
 import Input from '../Input';
 import Output from '../Output';
 import solvedProcessesInfoType from '../output/solvedProcess';

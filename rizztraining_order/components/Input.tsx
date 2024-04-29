@@ -1,6 +1,9 @@
 "use strict";
 
 import React, { useState, useEffect } from 'react';
+import {Process} from './algorithms/Fcfs';
+import Fcfs from './algorithms/Fcfs';
+import {GanttChart}  from './output/ganttChart';
 // import Output from './Output';
 // import SolvedProcess from '../components/output/solvedProcess';
 
@@ -109,7 +112,7 @@ export default function Input({ setData }: InputProps) {
         target.style.backgroundColor = '';
         target.style.color = '';
     };
-  
+    let arr1 : Process = [];
     return (
         <div className="flex justify-start items-center pl-10 pt-10">
           <form onSubmit={handleSubmit} className="bg-slate-50 shadow-md rounded px-8 pt-6 pb-8 mb-4 w-[650px]">
@@ -118,10 +121,10 @@ export default function Input({ setData }: InputProps) {
                 Algorithm
               </label>
               <select 
-              value={algorithm} 
-              onChange={handleAlgorithmChange}
-              className="custom-select shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-purple-700"
-            >
+                value={algorithm} 
+                onChange={handleAlgorithmChange}
+                className="custom-select shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-purple-700"
+              >
                 <option value="FCFS" onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>First Come First Serve</option>
                 <option value="SJF" onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>Shortest Job First</option>
                 <option value="SRTF" onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>Shortest Remaining Time First</option>
@@ -142,6 +145,7 @@ export default function Input({ setData }: InputProps) {
             )}
                 {
                     [...Array(numProcesses)].map((_, i) => (
+                        arr1 = {...arr1, id: i+1, arrivalTime: 0, burstTime: 0, AT: 0, BT: 0},
                         <div key={i} className="flex mb-4">
                         <div className="w-1/2 pr-2">
                             <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -154,29 +158,31 @@ export default function Input({ setData }: InputProps) {
                         </div>
                         <div className="w-1/2 pl-2">
                             <label className="block text-gray-700 text-sm font-bold mb-2">
-                            Burst Time for Process {i+1}
+                              Burst Time for Process {i+1}
                             <input 
-                                type="number"  
-                                onChange={(e) => handleInputChange(i, 'burstTime', Number(e.target.value))}
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-purple-700" />
+                              type="number"  
+                              onChange={(e) => handleInputChange(i, 'burstTime', Number(e.target.value))}
+                              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-purple-700" 
+                            />
                             </label>
                         </div>
                         <div className="w-1/2 pl-4">
                         {algorithm === 'PP' || algorithm === 'NPP' ? (
                             <label className="block text-gray-700 text-sm font-bold mb-2">
                                 Priority for Process {i+1}
-                                <input 
-                                    type="number" 
-                                    onChange={(e) => handleInputChange(i, 'priorities', Number(e.target.value))}
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-purple-700" />
+                                <input
+                                  type="number" 
+                                  onChange={(e) => handleInputChange(i, 'priorities', Number(e.target.value))}
+                                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-purple-700" 
+                                />
                             </label>
                         ) : null}
                     </div>
-                        </div>
-                    ))
-                    }
+                  </div>
+                ))
+              }
             <div className="flex items-center justify-between">
-              <button className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+              <button onClick={GanttChart} className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                 Solve
               </button>
             </div>
