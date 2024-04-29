@@ -1,58 +1,38 @@
-import { ganttChartInfoType } from '.';
+export type Process = {
+    id: number;
+    burstTime: number;
+};
 
-export const fcfs = (arrivalTime: number[], burstTime: number[]) => {
-  const processesInfo = arrivalTime
-    .map((item, index) => {
-      const job =
-        arrivalTime.length > 26
-          ? `P${index + 1}`
-          : (index + 10).toString(36).toUpperCase();
+export const fcfs = (arrivalTimes: number[], burstTimes: number[]) => {
+    let currentTime = 0;
+    let totalTAT = 0;
+    let totalWT = 0;
+    const processes: { process: string; at: number; bt: number; ft: number; tat: number; wat: number; }[] = [];
 
-      return {
-        job,
-        at: item,
-        bt: burstTime[index],
-      };
-    })
-    .sort((obj1, obj2) => {
-      if (obj1.at > obj2.at) {
-        return 1;
-      }
-      if (obj1.at < obj2.at) {
-        return -1;
-      }
-      return 0;
+    arrivalTimes.forEach((arrivalTime, index) => {
+        const process = {
+            id: index + 1,
+            burstTime: burstTimes[index],
+        };
+        const waitingTime = Math.max(0, currentTime - arrivalTime);
+        currentTime = Math.max(currentTime, arrivalTime) + process.burstTime;
+        const turnaroundTime = currentTime - arrivalTime;
+
+        totalTAT += turnaroundTime;
+        totalWT += waitingTime;
+
+        processes.push({
+            process: `P${process.id}`,
+            at: arrivalTime,
+            bt: process.burstTime,
+            ft: currentTime,
+            tat: turnaroundTime,
+            wat: waitingTime,
+        });
     });
 
-  let finishTime: number[] = [];
-  let ganttChartInfo: ganttChartInfoType = [];
+    const averageTAT = totalTAT / arrivalTimes.length;
+    const averageWT = totalWT / arrivalTimes.length;
 
-  const solvedProcessesInfo = processesInfo.map((process, index) => {
-    if (index === 0 || process.at > finishTime[index - 1]) {
-      finishTime[index] = process.at + process.bt;
-
-      ganttChartInfo.push({
-        job: process.job,
-        start: process.at,
-        stop: finishTime[index],
-      });
-    } else {
-      finishTime[index] = finishTime[index - 1] + process.bt;
-
-      ganttChartInfo.push({
-        job: process.job,
-        start: finishTime[index - 1],
-        stop: finishTime[index],
-      });
-    }
-
-    return {
-      ...process,
-      ft: finishTime[index],
-      tat: finishTime[index] - process.at,
-      wat: finishTime[index] - process.at - process.bt,
-    };
-  });
-
-  return { solvedProcessesInfo, ganttChartInfo };
+    return { processes, averageTAT, averageWT };
 };

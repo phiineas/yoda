@@ -1,8 +1,8 @@
 "use strict";
 
 import React, { useState, useEffect } from 'react';
-import Output from './Output';
-import SolvedProcess from '../components/output/solvedProcess';
+// import Output from './Output';
+// import SolvedProcess from '../components/output/solvedProcess';
 
 interface InputProps {
   setData: React.Dispatch<React.SetStateAction<Array<{
@@ -29,7 +29,7 @@ export default function Input({ setData }: InputProps) {
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        setSolving(false); 
+        setSolving(true); 
 
         const preparedData = prepareData();
         setData(preparedData);
