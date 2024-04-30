@@ -2,8 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import {Process} from './algorithms/Fcfs';
-import Fcfs from './algorithms/Fcfs';
-import {GanttChart}  from './output/ganttChart';
+// import Fcfs from './algorithms/Fcfs';
+import GanttChart from './output/ganttChart';
 // import Output from './Output';
 // import SolvedProcess from '../components/output/solvedProcess';
 
@@ -28,40 +28,61 @@ export default function Input({ setData }: InputProps) {
     const [showQuantumTime, setShowQuantumTime] = useState<boolean>(false);
     const [priorities, setPriorities] = useState<number[]>([]);
     // const [showSolvedProcess, setShowSolvedProcess] = useState<boolean>(false);
-    const [solving, setSolving] = useState(false);
+    const [showTable, setShowTable] = useState(false);
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        setSolving(true); 
+        setShowTable(true); 
 
         const preparedData = prepareData();
         setData(preparedData);
     }
 
     const prepareData = () => {
-        const processedData = [];
-        for (let i = 0; i < numProcesses; i++) {
-          const process = `Process ${i + 1}`;
-          const arrivalTime = arrivalTimes[i];
-          const burstTime = burstTimes[i];
-          const priority = priorities[i];
+      let totalTAT = 0;
+      let totalWT = 0;
+      let currentTime = 0;
+      const processedData = [];
+      for (let i = 0; i < numProcesses; i++) {
+        const process = `Process ${i + 1}`;
+        const arrivalTime = arrivalTimes[i];
+        const burstTime = burstTimes[i];
+        const priority = priorities[i];
 
-          const finishTime = arrivalTime + burstTime;
-          const turnaroundTime = finishTime - arrivalTime;
-          const waitingTime = turnaroundTime - burstTime;
-      
-          processedData.push({
-            process,
-            arrivalTime,
-            burstTime,
-            finishTime,
-            turnaroundTime,
-            waitingTime,
-            priority, 
-          });
+        if (arrivalTime > currentTime) {
+          currentTime = arrivalTime;
         }
-        return processedData;
-    };
+
+        const finishTime = currentTime + burstTime;
+        const turnaroundTime = finishTime - arrivalTime;
+        const waitingTime = turnaroundTime - burstTime;
+
+        totalTAT += turnaroundTime;
+        totalWT += waitingTime;
+
+        currentTime = finishTime;
+    
+        processedData.push({
+          process,
+          arrivalTime,
+          burstTime,
+          finishTime,
+          turnaroundTime,
+          waitingTime,
+          priority, 
+        });
+      }
+
+      const avgTAT = totalTAT / numProcesses;
+      const avgWT = totalWT / numProcesses;
+
+      processedData.push({
+        avgTAT,
+        avgWT,
+      });
+      
+      return processedData;
+  };
 
     useEffect(() => {
         if (numProcesses > 0) {
@@ -71,27 +92,23 @@ export default function Input({ setData }: InputProps) {
     }, [numProcesses, arrivalTimes, burstTimes, priorities]); 
 
     const handleInputChange = (index: number, type: string, value: number) => {
-        let newArrivalTimes = [...arrivalTimes];
-        let newBurstTimes = [...burstTimes];
-        let newPriorities = [...priorities];
-      
-        switch (type) {
+      switch (type) {
           case 'arrivalTime':
-            newArrivalTimes[index] = value;
-            setArrivalTimes(newArrivalTimes);
-            break;
+              arrivalTimes[index] = value;
+              setArrivalTimes([...arrivalTimes]);
+              break;
           case 'burstTime':
-            newBurstTimes[index] = value;
-            setBurstTimes(newBurstTimes);
-            break;
-          case 'priorities':
-            newPriorities[index] = value;
-            setPriorities(newPriorities);
-            break;
+              burstTimes[index] = value;
+              setBurstTimes([...burstTimes]);
+              break;
+          case 'priority':
+              priorities[index] = value;
+              setPriorities([...priorities]);
+              break;
           default:
-            break;
-        }
-    };
+              break;
+      }
+  };
 
     const handleAlgorithmChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const value = event.target.value;
@@ -109,10 +126,12 @@ export default function Input({ setData }: InputProps) {
 
     const handleMouseOut = (event: React.FormEvent) => {
         const target = event.target as HTMLSelectElement;
-        target.style.backgroundColor = '';
-        target.style.color = '';
+        target.style.backgroundColor = 'white';
+        target.style.color = 'white';
     };
+
     let arr1 : Process = [];
+
     return (
         <div className="flex justify-start items-center pl-10 pt-10">
           <form onSubmit={handleSubmit} className="bg-slate-50 shadow-md rounded px-8 pt-6 pb-8 mb-4 w-[650px]">
@@ -189,4 +208,8 @@ export default function Input({ setData }: InputProps) {
           </form>
         </div>
     );
+}
+
+function setShowChart(arg0: boolean) {
+  throw new Error('Function not implemented.');
 }
