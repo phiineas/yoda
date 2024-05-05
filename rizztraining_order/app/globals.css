@@ -70,12 +70,3 @@
     padding: 10px;
   }
   
-  select option:hover {
-    background: #BA68C8;
-    color: white;
-  }
-  
-  select option:checked {
-    background: #9C27B0;
-    color: white;
-  }

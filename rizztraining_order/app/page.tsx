@@ -1,13 +1,15 @@
 import Footer from '@/components/Footer'
 import Header from '@/components/Header'
-import Yoda from '@/components/Yoda'
+import Selection from '@/components/Selection'
 import React from 'react'
 
 export default function page() {
   return (
     <div>
       <Header />  
-      <Yoda />
+      <div>
+        <Selection />
+      </div>
       <Footer />
     </div>
   )
