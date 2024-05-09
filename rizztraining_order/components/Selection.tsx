@@ -30,7 +30,7 @@ export default function Selection() {
   
     return (
         <div className='text-center m-2 relative'>
-            <div className='flex flex-col items-start'>
+            <div className='flex flex-col items-start ml-10'>
                 <h1 className='mb-2 mt-5 font-bold'>Algorithm</h1>
                 <select 
                     className='shadow appearance-none border rounded w-[300px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-purple-700'

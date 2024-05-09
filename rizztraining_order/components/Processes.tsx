@@ -37,12 +37,12 @@ export default function Processes({ select }: select) {
 
     return (
         <div className="text-base">
-            <div className="flex flex-col items-start mt-5">
+            <div className="flex flex-col items-start mt-5 ml-10">
                 <h1 className="font-semibold">Number of Processes</h1>
                 <input type="number" className='shadow appearance-none border rounded w-[300px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-purple-700' id="processes" name="processes" value={numProcesses} max={10} onChange={inputChange}></input>
             </div>
             {(select === "Round Robin") && (
-                <div className="flex flex-col items-start mt-5">
+                <div className="flex flex-col items-start mt-5 ml-10">
                     <label>
                         <h1 className="font-semibold text-left">Quantum Time</h1>
                         <input className="shadow appearance-none border rounded w-[300px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-purple-700" type="number" id="quantum" name="quantum" onChange={(e)=>{
