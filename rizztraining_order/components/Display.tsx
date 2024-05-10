@@ -11,7 +11,6 @@ export interface Process {
     Btime?:number;
     Start?:number;
     End?:number;
-    Ftime?:number;
 }
 interface DisplayProps {
     numProcesses: number;
@@ -242,7 +241,6 @@ export default function Display({ numProcesses, select ,quantum , contextSwitch 
                             time += csgo;
                         }else{
                             time += current.burstTime;
-                            current.Ftime = time;
                             turnAroundTime = time - current.arrivalTime;
                             waitingTime = turnAroundTime - (current.Btime || 0);
                             totalTurnAroundTime += turnAroundTime;
@@ -291,6 +289,7 @@ export default function Display({ numProcesses, select ,quantum , contextSwitch 
                         top: '6%', 
                         left: '48%',
                         height: 'auto',
+                        overflowX: 'auto'
                     }}
               >
                 <h2 className='text-xl m-2 font-bold font-sans text-left'>Gantt Chart and Table will be shown here</h2>
@@ -301,10 +300,10 @@ export default function Display({ numProcesses, select ,quantum , contextSwitch 
                         <div key={index} className='flex'>
                           { // gap between processes
                             index > 0 && (process.Start ?? 0) > (executedP[index - 1].End ?? 0) && (
-                              <div key={`p-gap-${index}`} className='text-2xl border-solid border-1 text-center' style={{ width: `${((process.Start ?? 0) - (executedP[index - 1].End ?? 0)) * 40}px` }} ></div>
+                              <div key={`p-gap-${index}`} className='text-2xl border-solid border-1 text-center' style={{ width: `${((process.Start ?? 0) - (executedP[index - 1].End ?? 0)) * 20}px` }} ></div>
                             )
                           }
-                          <div key={`p-child-${index}`} className='text-2xl border border-gray-700 text-center' style={{ width: `${process.burstTime * 40}px` }} >
+                          <div key={`p-child-${index}`} className='text-2xl border border-gray-700 text-center' style={{ width: `${process.burstTime * 20}px` }} >
                             <div className='p-1 text-lg bg-purple-500'>
                               P{process.processId}
                             </div>
@@ -314,15 +313,15 @@ export default function Display({ numProcesses, select ,quantum , contextSwitch 
                       {select === "Round Robin" && executedP.map((process, index) => (
                         <div key={`RR-p-${index}`} className='flex items-center'>
                             {index > 0 && (process.Start ?? 0) > (executedP[index - 1].End ?? 0) && (
-                                <div className='text-2xl border-solid border-1 text-center' style={{ width: `${((process.Start ?? 0) - (executedP[index - 1].End ?? 0)) * 40}px` }}></div>
+                                <div className='text-2xl border-solid border-1 text-center' style={{ width: `${((process.Start ?? 0) - (executedP[index - 1].End ?? 0)) * 20}px` }}></div>
                             )}
-                            <div key={`RR-c1-${index}`} className='text-2xl border border-gray-700 text-center' style={{ width: `${(process.burstTime > (quantum ?? 0)) ? (quantum ?? 0) * 40 : process.burstTime * 40}px` }}>
+                            <div key={`RR-c1-${index}`} className='text-2xl border border-gray-700 text-center' style={{ width: `${(process.burstTime > (quantum ?? 0)) ? (quantum ?? 0) * 20 : process.burstTime * 20}px` }}>
                                 <div className='p-1 text-lg bg-purple-500'>
                                     P{process.processId}
                                 </div>
                             </div>
                             {index < executedP.length - 1 && (executedP[index + 1].Start ?? 0) <= ((process.End ?? 0) + (contextSwitch ?? 0)) && (
-                                <div className='bg-purple-500' style={{ width: `${(contextSwitch ?? 0 > 0) ? (contextSwitch ?? 0) * 40 : 0}px` }}></div>
+                                <div className='bg-purple-500' style={{ width: `${(contextSwitch ?? 0 > 0) ? (contextSwitch ?? 0) * 20 : 0}px` }}></div>
                             )}
                         </div>
                     ))}
@@ -332,10 +331,10 @@ export default function Display({ numProcesses, select ,quantum , contextSwitch 
                         <div key={index} className='flex'>
                           {
                             index > 0 && ((process.Start ?? 0) > (executedP[index - 1].End ?? 0)) && (
-                              <div style={{ width: `${((process.Start ?? 0) - (executedP[index - 1].End ?? 0)) * 40}px` }}></div>
+                              <div style={{ width: `${((process.Start ?? 0) - (executedP[index - 1].End ?? 0)) * 20}px` }}></div>
                             )
                           }
-                          <div key={`c-${index}`} className='flex justify-between text-base' style={{ width: `${process.burstTime * 40}px` }}>
+                          <div key={`c-${index}`} className='flex justify-between text-base' style={{ width: `${process.burstTime * 20}px` }}>
                             {index === 0 && (
                               <div>{process.Start}</div>
                             )}
@@ -350,9 +349,9 @@ export default function Display({ numProcesses, select ,quantum , contextSwitch 
                       {select === "Round Robin" && executedP.map((process, index) => (
                         <>
                             {index > 0 && (process.Start ?? 0) > (executedP[index - 1].End ?? 0) && (
-                                <div style={{ width: `${((process.Start ?? 0) - (executedP[index - 1].End ?? 0)) * 40}px` }}></div>
+                                <div style={{ width: `${((process.Start ?? 0) - (executedP[index - 1].End ?? 0)) * 20}px` }}></div>
                             )}
-                            <div key={`RR-c2-${index}`} className='flex justify-between text-base' style={{ width: `${(process.burstTime - (quantum ?? 0) > 0) ? (quantum ?? 0) * 40 : (process.burstTime) * 40}px` }}>
+                            <div key={`RR-c2-${index}`} className='flex justify-between text-base' style={{ width: `${(process.burstTime - (quantum ?? 0) > 0) ? (quantum ?? 0) * 20 : (process.burstTime) * 20}px` }}>
                                 {index === 0 && (
                                     <div>{process.Start}</div>
                                 )}
@@ -392,7 +391,7 @@ export default function Display({ numProcesses, select ,quantum , contextSwitch 
                                             <td className="px-6 py-4 whitespace-nowrap border border-gray-200">{`P${process.processId}`}</td>
                                             <td className="px-6 py-4 whitespace-nowrap border border-gray-200">{process.arrivalTime}</td>
                                             <td className="px-6 py-4 whitespace-nowrap border border-gray-200">{process.burstTime}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap border border-gray-200">{process.Ftime}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap border border-gray-200">{process.End}</td>
                                             <td className="px-6 py-4 whitespace-nowrap border border-gray-200">{process.End - process.arrivalTime}</td>
                                             <td className="px-6 py-4 whitespace-nowrap border border-gray-200">{(process.End - process.arrivalTime) - process.burstTime}</td>
                                         </tr>
