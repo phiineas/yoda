@@ -7,7 +7,7 @@ export default function page() {
   return (
     <div>
       <Header />
-      <div>
+      <div style={{ marginBottom: '500px' }}>
         <Intro />
       </div>
       <Footer />

@@ -2,6 +2,10 @@
 import Link from 'next/link';
 import React from 'react';
 import { MdStart } from "react-icons/md";
+import Card from './Cards';
+import { FaUserEdit } from 'react-icons/fa';
+import { BiCloud, BiCloudLightning, BiCustomize } from 'react-icons/bi';
+import { IoBarChartOutline } from 'react-icons/io5';
 
 export default function Intro() {
 
@@ -29,6 +33,37 @@ export default function Intro() {
                         </button>
                     </>
                 </Link>
+                <div>
+                    <div>
+                        <p className='text-left text-2xl font-mono mt-12 ml-12 mb-2'>Why Simply Salted</p>
+                        <p className='ml-12 text-left font-sans text-gray-700 text-base mb-6'>
+                            Cut down on solving time with Simply Salted's <br />
+                            lightning-fast algorithms and intuitive interface. <br />
+                        </p>
+                    </div>
+                    <div className='ml-12 text-left font-sans mb-6'>
+                        <Card 
+                            title='User-Friendly' 
+                            content='Our interface is designed to be intuitive and easy to use, ensuring a seamless experience for all users.'
+                            icon={FaUserEdit}
+                        />
+                        <Card 
+                            title='Lightning-Fast' 
+                            content='Our algorithms are optimized for speed, allowing you to solve problems quickly and efficiently.' 
+                            icon={BiCloudLightning}    
+                        />
+                        <Card 
+                            title='Customizable' 
+                            content='Our solutions are customizable to fit your needs, ensuring that you get the most out of our platform.' 
+                            icon={BiCustomize}    
+                        />
+                        <Card 
+                            title='Visualizations' 
+                            content='Our platform includes a variety of visualizations to help you better understand your data and make informed decisions.' 
+                            icon={IoBarChartOutline}    
+                        />
+                    </div>
+                </div>
             </div>
         </div>
     );
