@@ -2,6 +2,7 @@
 import exp from 'constants';
 import React, { ReactElement, useState } from 'react';
 import Selection from './Selection';
+import { exec } from 'child_process';
 
 export interface Process {
     processId: number;
@@ -221,6 +222,7 @@ export default function Display({ numProcesses, select ,quantum , contextSwitch 
                 let time = 0;
                 let turnAroundTime = 0, waitingTime = 0;
                 let totalTurnAroundTime = 0, totalWaitingTime = 0;
+                let Ftimes = new Map();
                 while(calArr.length > 0  || newArr.length > 0){
                     // console.log("First loop");
                     while(calArr.length > 0 && calArr[0].arrivalTime <= time){
@@ -233,7 +235,7 @@ export default function Display({ numProcesses, select ,quantum , contextSwitch 
                             ...current, 
                             Start : time, 
                             End : time + ((current.burstTime - qt > 0) ? qt : current.burstTime), 
-                            Ftime: time + ((current.burstTime - qt > 0) ? qt : current.burstTime)
+                            Ftime: 0
                         }
                         executedP.push({...Execute});
                         // console.log(executedP)
@@ -251,6 +253,10 @@ export default function Display({ numProcesses, select ,quantum , contextSwitch 
                             waitingTime = turnAroundTime - (current.Btime || 0);
                             totalTurnAroundTime += turnAroundTime;
                             totalWaitingTime += waitingTime;
+                            Ftimes.set(current.processId,time);
+                            executedP.forEach(p=>{
+                                p.Ftime = Ftimes.get(p.processId);
+                            })
                             time += csgo;
                         }
                         setExecutedP(executedP);
