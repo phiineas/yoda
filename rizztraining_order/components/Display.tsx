@@ -363,7 +363,7 @@ export default function Display({ numProcesses, select ,quantum , contextSwitch 
                             {index >0 && (process.Start??0) > (executedP[index-1].End??0) && (
                                 <div style={{ width: `${((process.Start??0) - (executedP[index-1].End??0))*10}px` }}></div>
                             )}
-                            <div key={`RR-c2-${index}`} className='flex justify-between' style={{ width: `${ (process.burstTime - (quantum??0) > 0) ? (quantum??0)* 40 : (process.burstTime) * 40}px` }}> 
+                            <div key={`RR-c2-${index}`} className='flex justify-between' style={{ width: `${ (process.burstTime - (quantum??0) > 0) ? (quantum??0)* 40 : (process.burstTime) * 42}px` }}> 
                             {/* change to 40px if context switch time is greater than 0 */}
                                 { index === 0 && (
                                     <div style={{minWidth: '10px'}}>{process.Start}</div>
@@ -407,8 +407,8 @@ export default function Display({ numProcesses, select ,quantum , contextSwitch 
                                             <td className="px-6 py-4 whitespace-nowrap border border-gray-200">{process.arrivalTime}</td>
                                             <td className="px-6 py-4 whitespace-nowrap border border-gray-200">{process.burstTime}</td>
                                             <td className="px-6 py-4 whitespace-nowrap border border-gray-200">{process.Ftime}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap border border-gray-200">{}</td>
-                                            <td className="px-6 py-4 whitespace-nowrap border border-gray-200">{}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap border border-gray-200">{process.Ftime - process.arrivalTime}</td>
+                                            <td className="px-6 py-4 whitespace-nowrap border border-gray-200">{(process.Ftime - process.arrivalTime) - process.burstTime}</td>
                                         </tr>
                                         ) : (
                                             <tr key={index}>

@@ -20,3 +20,5 @@ const Card: React.FC<CardProps> = ({ icon: Icon, title, content }) => {
 }
 
 export default Card;
+
+// made it more reusable by using props

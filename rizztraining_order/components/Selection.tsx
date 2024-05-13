@@ -48,3 +48,5 @@ export default function Selection() {
         </div>
     );
 }
+
+// have to optimize the code

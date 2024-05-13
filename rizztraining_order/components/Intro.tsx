@@ -94,3 +94,5 @@ export default function Intro() {
         </div>
     );
 }
+
+// have to add framer motion for animations
