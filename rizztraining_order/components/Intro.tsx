@@ -68,23 +68,16 @@ export default function Intro() {
                             <Card 
                                 title='Visualizations' 
                                 content='Our platform includes a variety of visualizations to help you better understand your data and make informed decisions.' 
-                                icon={IoBarChartOutline}    
+                                icon={IoBarChartOutline}  
                             />
                         </div>
                     </div>
                 </div>
-                <p className='mt-12 text-3xl font-semibold text-gray-800 text-center font-mono'>Contributors</p>
+                <p className='mt-12 ml-12 text-3xl font-semibold text-gray-800 text-start font-mono'>Contributors</p>
                 <div className='flex flex-row'>
-                    <div className='ml-12 mb-6 mt-6'>
+                    <div className='ml-12 mb-6 mt-6 w-96'>
                         <Card 
                             title='Jainil Patel' 
-                            content='lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' 
-                            icon={FaGithub}    
-                        />
-                    </div>
-                    <div className='mt-60 mr-12'>
-                        <Card 
-                            title='Jalaj Patel' 
                             content='lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.' 
                             icon={FaGithub}    
                         />
